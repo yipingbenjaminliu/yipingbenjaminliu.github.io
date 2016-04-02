@@ -1,0 +1,56 @@
+<!doctype html>
+ <html>
+   <head>
+     <meta charset="utf-8">
+     <link rel="import" href="../components/deps.html">
+     <script src="../bower_components/web-component-tester/browser.js"></script>
+   </head>
+   <body>
+     <template id="app" is="dom-bind">
+       <profile-page params="{{params}}"></profile-page>
+     </template>
+     <script>
+      page({hashbang: true});
+    </script>
+    <script>
+ var app = document.querySelector("#app");
+ suite('<profile-page>', function() {
+   setup(function() {
+     var page = document.querySelector('profile-page');
+   });
+     test('edit', function() {
+     var button = document.querySelector('paper-button');
+     var email = document.getElementById('email');
+     var name = document.getElementById('name');
+     var desc = document.getElementById('desc');
+     var pass = document.getElementById('password');
+     var conPass = document.getElementById('confirmPassword');
+     email.value = "edit@hotmail.com";
+     name.value = "edit";
+     desc.value = "";
+     pass.value = "12345678";
+     conPass.value = "12345678";
+     expect(pass.value).to.equal(conPass.value);
+     expect(button).to.be.ok;
+    });
+   test('wrong password', function() {
+     var button = document.querySelector('paper-button');
+     var email = document.getElementById('email');
+     var name = document.getElementById('name');
+     var desc = document.getElementById('desc');
+     var pass = document.getElementById('password');
+     var conPass = document.getElementById('confirmPassword');
+     var error = document.getElementById('toastNotMatch');
+     email.value = "edit@hotmail.com";
+     name.value = "edit";
+     desc.value = "";
+     pass.value = "12345678";
+     conPass.value = "123456789";
+     button.click();
+     expect(error).to.exist;
+    });
+   });
+   </script>
+ </body>
+ </html>
+

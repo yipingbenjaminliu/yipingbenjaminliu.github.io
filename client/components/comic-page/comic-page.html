@@ -1,0 +1,115 @@
+comments<dom-module id="comic-page">
+  <style is="custom-style">
+    .meta {
+      color: gray;
+    }
+    paper-icon-button.giant {
+      width: 125px;
+      height: 125px;
+    }
+    .comic {
+      margin-top: 100px;
+      border-radius: 13px;
+      border: 3px solid black;
+      background-color: white;
+      position: relative;
+    }
+    .comic a {
+      position: absolute;
+      top: 112.5px;
+      color: black;
+    }
+    .comic a.left {
+      left: -145px;
+    }comments
+    .comic a.right {
+      right: -145px;
+    }
+    .right {
+      left: 100%;
+    }
+    img {
+      max-width: 100%;
+    }
+    #test{
+      color: red;
+    }
+    .commentBubble{
+      height: auto;
+      width: auto;
+      background-color: white;
+      font-family: 'Bangers';
+      border: 4px solid black;
+      border-radius: 14px;
+    }
+    [hidden] {
+      display: none;
+    }
+    paper-input {
+      display: inline-block;
+    }
+  </style>
+  <template>
+    <div class="comic">
+      <template is="dom-if" if="{{editMode}}">
+        <zwibblers-editor png="{{resp.img}}" zwibbler3="{{resp.zwibbler3}}"></zwibblers-editor>
+      </template>
+      <template is="dom-if" if="{{!editMode}}">
+        <img src="{{resp.img}}">
+      </template>
+      <template is="dom-if" if="[[prev(resp)]]">
+        <a href="[[stripURL(resp.comic, prevItem)]]" class="left">
+          <paper-icon-button icon="chevron-left" title="Previous" class="giant"></paper-icon-button>
+        </a>
+      </template>
+      <template is="dom-if" if="[[next(resp)]]">
+        <a href="[[stripURL(resp.comic, nextItem)]]" class="right">
+          <paper-icon-button icon="chevron-right" title="Next" class="giant"></paper-icon-button>
+        </a>
+      </template>
+    </div>
+    <div class="comment-bubble">
+      <h1>
+        <a href="[[comicURL(resp.comic)]]"><font color="black">[[resp.comic.title]]</font></a> /
+        <template is="dom-if" if="{{editMode}}">
+          <paper-input value="{{resp.title}}" label="Name"></paper-textarea>
+        </template>
+        <template is="dom-if" if="{{!editMode}}">
+          <span>[[resp.title]]</span>
+        </template>
+      </h1>
+      <vote-box votable="{{resp}}" url="[[voteURL(params.comic, params.strip)]]"></vote-box>
+      <p class="meta">
+      <author-list authors="{{resp.authors}}"></author-list>
+      | <span>[[resp.date]]</span>
+      </p>
+      <template is="dom-if" if="{{editMode}}">
+        <paper-textarea value="{{resp.desc}}" label="Description"></paper-textarea>
+      </template>
+      <template is="dom-if" if="{{!editMode}}">
+        <p>[[resp.desc]]</p>
+      </template>
+    </div>
+    <div class="comment-bubble">
+      <comment-box url="[[commentURL(params.comic, params.strip)]]" comments="{{resp.comments}}"></comment-box>
+      <div hidden$="[[!contributor(userDetail)]]">
+        <paper-toggle-button checked="{{editMode}}" style="'font-family: 'Bangers';">Edit Mode</paper-toggle-button>
+      </div>
+    </div>
+
+    <iron-ajax auto
+             url="/api/currentUser/"
+             handle-as="json"
+             last-response="{{userDetails}}"></iron-ajax>
+    <iron-ajax auto
+           url="[[url(params.comic, params.strip)]]"
+           handle-as="json"
+           last-response="{{resp}}"></iron-ajax>
+    <iron-ajax id="patch"
+               url="[[patchURL(params.comic, params.strip)]]"
+               method="post"
+               content-type="application/json"
+               handle-as="json" on-error="err"></iron-ajax>
+  </template>
+</dom-module>
+<script src="comic-page.js"></script>

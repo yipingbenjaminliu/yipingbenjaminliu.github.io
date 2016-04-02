@@ -1,0 +1,28 @@
+<!doctype html>
+ <html>
+ <head>
+   <meta charset="utf-8">
+   <link rel="import" href="../components/deps.html">
+   <script src="../bower_components/web-component-tester/browser.js"></script>
+ </head>
+ <body>
+   <template id="app" is="dom-bind">
+     <not-found-page url="[[url]]"></not-found-page>
+   </template>
+   <script>
+ var app = document.querySelector("#app");
+ app.url = '/test';
+
+ suite('<not-found-page>', function() {
+   setup(function() {
+   });
+   test('renders url', function() {
+     var app = document.querySelector("#app");
+     var page = document.querySelector('not-found-page h1 span');
+     assert.include(page.innerText, app.url);
+   });
+ });
+   </script>
+ </body>
+ </html>
+

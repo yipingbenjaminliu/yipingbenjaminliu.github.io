@@ -1,0 +1,53 @@
+<!doctype html>
+ <html>
+ <head>
+   <meta charset="utf-8">
+   <link rel="import" href="../components/deps.html">
+   <script src="../bower_components/web-component-tester/browser.js"></script>
+ </head>
+ <body>
+   <template id="app" is="dom-bind">
+     <comment-box url="{{url}}" comments="{{comments}}"></comment-box>
+   </template>
+   <script>
+ var app = document.querySelector("#app");
+ app.url = window.location.origin+"/test/comment";
+ app.comments = [
+{
+  votes: 5,
+  date: new Date(),
+  author: {name: 'bar'},
+  body: "foo",
+},
+{
+  votes: 5,
+  date: new Date(),
+  author: {name: 'bar'},
+  body: "foo",
+},
+ ];
+
+ suite('<comment-box>', function() {
+   test('read params', function() {
+     var app = document.querySelector("#app");
+     var box = document.querySelector('comment-box');
+     assert.equal(app.url, box.url);
+     assert.equal(app.comments, box.comments);
+
+     var ajax = document.querySelector('comment-box form');
+     assert.equal(app.url, ajax.action);
+   });
+   test('view', function() {
+     var app = document.querySelector("#app");
+     var box = document.querySelectorAll('comment-box > div');
+     assert.equal(box.length, app.comments.length);
+   });
+   test('voteURL', function() {
+     var box = document.querySelector('comment-box');
+     assert.equal(box.voteURL({_id: 'test'}), '/api/comment/test/vote');
+   });
+ });
+   </script>
+ </body>
+ </html>
+

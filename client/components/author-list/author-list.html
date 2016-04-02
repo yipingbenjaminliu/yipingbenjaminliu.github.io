@@ -1,0 +1,9 @@
+<dom-module id="author-list">
+  <template>
+    By
+    <template is="dom-repeat" items="[[authors]]">
+      <a href="[[authorURL(item)]]">[[item.name]]</a>
+    </template>
+  </template>
+</dom-module>
+<script src="author-list.js"></script>

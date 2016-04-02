@@ -1,0 +1,18 @@
+<dom-module id="editcomic-strip">
+  <template>
+  
+
+    <form is="iron-form" id="updateform" method="post" action="[[url(strip.title)]]" on-iron-form-response="comicstripupdated">
+      <img src="{{strip.img}}" height ="200">
+      <paper-input name="stitle" value="[[strip.title]]"></paper-input>
+      <paper-textarea name="sdescrip" value="[[strip.desc]]"></paper-textarea>
+      <paper-button on-click="comicstripupdate" raised>Update</paper-button>
+    </form>
+    <form is="iron-form" id="deleteform" method="delete" action="[[url(strip.title)]]" on-iron-form-response="comicstripsremoved">
+      <paper-button id="[[item.title]]" name="[[item.title]]" on-click="comicstripdelete" raised>Delete</paper-button>
+    </form>
+
+
+  </template>
+</dom-module>
+<script src="editcomicstrip.js"></script>

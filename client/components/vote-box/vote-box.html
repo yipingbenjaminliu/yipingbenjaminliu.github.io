@@ -1,0 +1,26 @@
+<dom-module id="vote-box">
+  <style is="custom-style">
+    :host {
+      text-align: center;
+      max-width: 40px;
+      display: inline-block;
+      margin-bottom: -50px;
+      margin-top: -50px;
+      margin-left: -40px;
+    }
+
+  </style>
+  <template>
+      <template is="dom-if" if="[[userDetails]]">
+      <paper-icon-button icon="expand-less" on-tap="up"></paper-icon-button>
+      <div>[[votable.votes]]</div>
+      <paper-icon-button icon="expand-more" on-tap="down"></paper-icon-button>
+      </template>
+      <iron-ajax id="vote" method="POST" url="[[url]]" content-type="application/json"></iron-ajax>
+          <iron-ajax auto
+             url="/api/currentUser/"
+             handle-as="json"
+             last-response="{{userDetails}}"></iron-ajax>
+ </template>
+</dom-module>
+<script src="vote-box.js"></script>

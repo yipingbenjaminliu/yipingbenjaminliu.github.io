@@ -1,0 +1,53 @@
+<!doctype html>
+ <html>
+ <head>
+   <meta charset="utf-8">
+   <link rel="import" href="../components/deps.html">
+   <script src="../bower_components/web-component-tester/browser.js"></script>
+ </head>
+ <body>
+   <template id="app" is="dom-bind">
+     <vote-box url="{{url}}" votable="{{votable}}"></vote-box>
+   </template>
+   <script>
+ var app = document.querySelector("#app");
+ app.url = "/test/vote";
+ app.votable = {
+   votes: 5,
+ };
+
+ suite('<vote-box>', function() {
+   test('read params', function() {
+     var app = document.querySelector("#app");
+     var box = document.querySelector('vote-box');
+     assert.equal(app.url, box.url);
+     assert.equal(app.votable, box.votable);
+
+     var ajax = document.querySelector('iron-ajax');
+     assert.equal(app.url, ajax.url);
+   });
+   test('view', function() {
+     var app = document.querySelector("#app");
+     var box = document.querySelector('vote-box div');
+     assert.equal(parseInt(box.innerText), app.votable.votes);
+   });
+   test('voting', function() {
+     var app = document.querySelector("#app");
+     var box = document.querySelector('vote-box');
+     var votes = app.votable.votes;
+     var up = document.querySelector('vote-box [icon="expand-less"]');
+     var down = document.querySelector('vote-box [icon="expand-more"]');
+     up.click();
+     assert.equal(app.votable.votes, votes+1);
+     up.click();
+     assert.equal(app.votable.votes, votes+1);
+     down.click();
+     assert.equal(app.votable.votes, votes);
+     down.click();
+     assert.equal(app.votable.votes, votes);
+   });
+ });
+   </script>
+ </body>
+ </html>
+

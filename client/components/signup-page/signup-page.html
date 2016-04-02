@@ -1,0 +1,70 @@
+<dom-module id="signup-page">
+  <style is="custom-style">
+    :root {
+      --paper-input-container-input: {
+        font-size: 20px;
+      };
+    }
+	  paper-input{
+      --paper-input-container-input-color: black; 
+      --paper-input-label: black; 
+      --paper-input-container-invalid-color: red;
+    }
+    paper-checkbox{
+      font-family: 'Bangers';
+      --paper-checkbox-label-color:black;	
+      --paper-checkbox-unchecked-color:black;	
+      --paper-checkbox-checked-color: black;
+    }
+    paper-label{
+      color: white;
+    }
+    paper-button {
+      bottom: 14px;
+      background-color: black
+      color: white;
+    }
+    paper-toast {
+      background-color: white;
+      color:  #3d3d5c;
+    }
+    .right {
+      float: right;
+    }
+  </style>
+  <template>
+    <div class="bubble">
+      <h1>Join us!</h1>
+    </div>
+    <div class="comment-bubble">
+      <form is="iron-form" id="addUser" method="post" action ="/signup">
+        <paper-input label="email" id="email" name = "email" type="email" error-message=" "required></paper-input>
+        <paper-input char-counter minlength="8" label="password" id="password" name = "password" type = "password" error-message=" " required></paper-input>
+        <paper-input label="name" name ="name" id="username" required></paper-input><br>
+        <paper-checkbox noink name ='contributor'>Contributor</paper-checkbox>
+        <paper-button class = "right" onclick="clickHandler(event)">SIGN UP</paper-button>
+      </form>
+    </div>
+    <paper-toast id='toastDuplicate' text="email already exist"></paper-toast>
+    <paper-toast id="signupToast" text="Signed Up Successfully" duration="0"></paper-toast>
+    <template is="dom-if" if="[[userDetails]]">
+      <p>You are already logged in.</p>
+    </template>
+    <script>
+      document.getElementById('addUser').addEventListener('iron-form-response', function(event) {
+        window.location = "/";
+      });
+      document.getElementById('addUser').addEventListener('iron-form-error', function(event) {
+        toastDuplicate.open();
+      });
+      function clickHandler(event) {
+        Polymer.dom(event).localTarget.parentElement.submit();           
+      }
+    </script>
+    <iron-ajax auto
+             url="/api/currentUser/"
+             handle-as="json"
+             last-response="{{userDetails}}"></iron-ajax>
+  </template>
+</dom-module>
+<script src="signup-page.js"></script>

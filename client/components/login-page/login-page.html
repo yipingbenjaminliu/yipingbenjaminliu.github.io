@@ -1,0 +1,86 @@
+<dom-module id="login-page">
+  <style is="custom-style">
+    paper-input{
+      --paper-input-container-input-color: black;  
+      --paper-input-container-invalid-color: yellow;
+    }
+    .right {
+      float: right;
+    }
+
+    paper-toast {
+      background-color: white;
+      color:  #3d3d5c;
+    }
+
+    paper-button{
+      bottom: 14px;
+      background-color: black
+      color: white;
+    }
+
+    h2 {
+      background-color: rgba(255, 247, 230, 0.75);
+      width: 100%;
+      padding: 30px;
+      border-top-left-radius: 30px;
+      border-top-right-radius: 30px;
+      text-align: center;
+    }
+
+  </style>
+  <template>
+    <div class="bubble">
+    <h1>Log in!</h1>
+    </div>
+    <div class="comment-bubble">
+      <form is = "iron-form" id="loginUser" method="post" action ="/login">
+        <paper-input label="email" id="email" name ="email" type="email" error-message=" "required ></paper-input>
+        <paper-input label="password" id="password" name ="password" type = "password" error-message=" " required></paper-input>
+        <div class="fb-login-button" id="fbBtn" scope="email" data-size="large" show-faces="false" onclick="fbLogIn()" onlogin="checkLoginState()"></div>
+        <paper-button id="login-button" class="right" onclick="clickHandler(event)">Log In</paper-button>
+        <div id="status"></div>
+      </form> 
+      <template is="dom-if" if="[[userDetails]]">
+        <p>You are already logged in.</p>
+      </template>
+    </div>
+    
+   <paper-toast id='toastNotExist' name='toastNotExist' text="Check your email and password. If you haven't signed up, sign up first" duration="0"></paper-toast>
+       <paper-toast id='loginToast' name='loginToast' text="Logged In" duration="0"></paper-toast>
+
+    <script>
+      $(document).ready(function(){
+        setTimeout(function(){
+          $('.fb-login-button').show();
+          $('#status').show();
+        }, 1000);
+
+        $('.paper-button').css('color' , 'white');
+        $('.bubble').addClass('opening');
+        $('h2').addClass('opening');
+        $('.comment-bubble').addClass('opening2');
+      });
+      function clickHandler(event) {
+        Polymer.dom(event).localTarget.parentElement.submit();
+      }
+      document.getElementById('loginUser').addEventListener('iron-form-response', function(event) {
+         loginToast.open();
+         userDetails.generateRequest();
+         if (page) {
+           page('/profile');
+         }
+      });
+
+      document.getElementById('loginUser').addEventListener('iron-form-error', function(event) {
+        toastNotExist.open();
+      });
+
+    </script>
+     <iron-ajax auto
+             url="/api/currentUser/"
+             handle-as="json"
+             last-response="{{userDetails}}"></iron-ajax>
+  </template>
+</dom-module>
+<script src="login-page.js"></script>

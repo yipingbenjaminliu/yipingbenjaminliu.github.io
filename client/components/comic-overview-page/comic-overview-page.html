@@ -1,0 +1,57 @@
+<dom-module id="comic-overview-page">
+  <style is="custom-style">
+    .meta {
+      color: gray;
+    }
+    [hidden] {
+      display: none;
+    }
+  </style>
+  <template>
+    <div class="bubble">
+      <h1>[[resp.title]]</h1>
+      <p class="meta">
+        <author-list authors="{{resp.authors}}"></author-list>
+      </p>
+      <h2>Strips:</h2>
+      <template is="dom-repeat" items="[[resp.strips]]">
+        <div>
+          <a href="[[stripURL(resp, item)]]">[[item.title]]</a>
+          <div class="meta">
+            <span>[[item.votes]]</span> points |
+            Last updated: <span>[[item.date]]</span>
+          </div>
+          <hr>
+        </div>
+      </template>
+    </div>
+
+    <div class="bubble2">
+      <div hidden$="[[!contributor(userDetails)]]">
+        <form is="iron-form" id="form" method="post" action="[[url(params.comic)]]" on-iron-form-response="submitted">
+          <paper-input name="title" label="Comic Strip Name" required auto-validate></paper-input>
+          <paper-button on-tap="create" raised>Create Comic Strip</paper-button>
+        </form>
+
+        <template is="if-dom" if="[[!contributor(userDetails)]]">
+          Be a contributor and add things to this comic!
+        </template>
+
+      </div>
+    </div>
+
+    <div class="comment-bubble">
+      <comment-box comments="{{resp.comments}}" url="[[commentURL(params.comic)]]"></comment-box>
+    </div>
+
+    <iron-ajax auto
+             url="[[url(params.comic)]]"
+             handle-as="json"
+             last-response="{{resp}}"></iron-ajax>
+    <iron-ajax auto
+             url="/api/currentUser/"
+             handle-as="json"
+             last-response="{{userDetails}}"></iron-ajax>
+  </template>
+</dom-module>
+<script src="comic-overview-page.js"></script>

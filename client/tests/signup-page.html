@@ -1,0 +1,86 @@
+<!doctype html>
+ <html>
+ <head>
+   <meta charset="utf-8">
+   <link rel="import" href="../components/deps.html">
+   <script src="../bower_components/web-component-tester/browser.js"></script>
+ </head>
+ <body>
+    <template id="app" is="dom-bind">
+     <signup-page params="{{params}}"></signup-page>
+   </template>
+   <script>
+ var app = document.querySelector("#app");
+
+ suite('<signup-page>', function() {
+   test('paper button', function() {
+     var page = document.querySelector('login-page');
+     expect(document.querySelector('paper-button')).to.be.ok;
+   });
+   test('missing inputs', function() {
+     var page = document.querySelector('signup-page');
+     var button = document.querySelector('paper-button');
+     var input = document.getElementById('email');
+     var input1 = document.getElementById('password');
+     var input2 = document.getElementById('username');
+     var error = Polymer.dom(input1.root).querySelector('paper-input-error');
+
+     input.value = "email@hotmail.com";
+     input1.value = "";
+     input2.value = "test";
+     button.click();
+     assert.ok(input);
+     assert.ok(input2);
+     assert.ok(error);
+   });
+   test('invalid email', function() {
+     var page = document.querySelector('signup-page');
+     var button = document.querySelector('paper-button');
+     var input = document.getElementById('email');
+     var input1 = document.getElementById('password');
+     var input2 = document.getElementById('username');
+     var error = Polymer.dom(input.root).querySelector('paper-input-error');
+
+     input.value = "email";
+     input1.value = "12345678";
+     input2.value = "test";
+     button.click();
+     assert.ok(input1);
+     assert.ok(input2);
+     assert.ok(error);
+   });
+   test('invalid password(char counter)', function() {
+     var page = document.querySelector('signup-page');
+     var button = document.querySelector('paper-button');
+     var input = document.getElementById('email');
+     var input1 = document.getElementById('password');
+     var input2 = document.getElementById('username');
+     var counter = Polymer.dom(input1.root).querySelector('paper-input-char-counter');
+
+     input.value = "email@hotmail.com";
+     input1.value = "12";
+     input2.value = "test";
+     button.click();
+     assert.ok(input);
+     assert.ok(input2);
+     assert.ok(counter);
+   });
+   test('valid input', function() {
+     var page = document.querySelector('signup-page');
+     var button = document.querySelector('paper-button');
+     var input = document.getElementById('email');
+     var input1 = document.getElementById('password');
+     var input2 = document.getElementById('username');
+
+     input.value = "123@hotmail.com";
+     input1.value = "12345678";
+     input2.value = "jin";
+     button.click();
+     assert.ok(input);
+     assert.ok(input1);
+     assert.ok(input2);
+   });
+ });
+   </script>
+ </body>
+ </html>

@@ -1,0 +1,249 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet' type='text/css'>
+  <link rel="import" href="components/deps.html">
+  <title>Waffles Comic App</title>
+  <style>
+  body, html {
+    color: rgba(0,0,0,1.0);
+    margin: 0;
+    font-family: 'Bangers';
+    background-image: url("https://pixabay.com/static/uploads/photo/2015/12/25/14/33/background-1107694_960_720.jpg");
+    background-size: cover;
+    padding: 0;
+    background-repeat: no-repeat;
+    background-position: fill;
+    transition: background 1s;
+  }
+  img{
+    transition: all 0.5s;
+  }
+  h1, h2, h3, h4{
+    text-align: left;
+    margin: 20px;
+  }
+  a, a:link, a:visited{
+    text-decoration: none;
+    color: black;
+    font-family: 'Bangers';
+    transition: all 0.5s;
+  }
+  .bubble{
+    box-sizing: border-box;
+    transition: all 0.25s;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    font-size: 24px;
+    font-family: 'Bangers';
+    position: relative;
+    width: 100%;
+    height: auto;
+    padding: 20px;
+    background: #fff;
+    -webkit-border-radius: 26px;
+    -moz-border-radius: 26px;
+    border-radius: 26px;
+    border: #000 solid 6px;
+  }
+
+  .bubble:after{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 0 0px 19px;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    top: -19px;
+    left: 131px;
+  }
+  .bubble:before{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 0 5px 24px;
+    border-color: #000 transparent;
+    display: block;
+    width: 0;
+    z-index: 0;
+    top: -30px;
+    left: 126px;
+  }
+  .bubble2{
+    box-sizing: border-box;
+    transition: all 0.25s;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    font-size: 24px;
+    font-family: 'Bangers';
+    position: relative;
+    width: 900px;
+    height: auto;
+    padding: 20px;
+    background: #FFFFFF;
+    -webkit-border-radius: 26px;
+    -moz-border-radius: 26px;
+    border-radius: 26px;
+    border: #000 solid 5px;
+  }
+  .bubble2:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 15px 0;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    bottom: -15px;
+    left: 592px;
+  }
+  .bubble2:before{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 19px 19px 0;
+    border-color: #000 transparent;
+    display: block;
+    width: 0;
+    z-index: 0;
+    bottom: -24px;
+    left: 588px;
+  }
+  .comment-bubble{
+    box-sizing: border-box;
+    transition: all 0.25s;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    font-size: 24px;
+    font-family: 'Bangers';
+    position: relative;
+    width: 900px;
+    height: auto;
+    padding: 20px;
+    background: #fff;
+    -webkit-border-radius: 26px;
+    -moz-border-radius: 26px;
+    border-radius: 26px;
+    border: #000 solid 6px;
+  }
+  .comment-bubble:after{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 19px 0px 0;
+    border-color: #fff transparent;
+    display: block;
+    width: 0;
+    z-index: 1;
+    bottom: -19px;
+    left: 660px;
+  }
+  .comment-bubble:before{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 24px 5px 0;
+    border-color: #000 transparent;
+    display: block;
+    width: 0;
+    z-index: 0;
+    bottom: -30px;
+    left: 655px;
+  }
+  vote-box{
+    margin-left: -80px;
+    transition: all 1s;
+  }
+  .grid {
+    margin: 30px;
+    max-width: 1200px;
+  }
+  .grid:after {
+    content: '';
+    display: block;
+    clear: both;
+  }
+  .opening{
+    animation: 0.50s expand;
+  }
+  @keyframes expand{
+    0%{transform: scale(0.80, 0.80);
+      opacity: 0;}
+      100%{transform: scale(1.00, 1.00);
+      opacity:1;}
+  }
+  .opening2{
+    animation: 1.00s expand;
+  }
+  .opening3{
+    animation: 1.5s expand;
+  }
+  </style>
+</head>
+<body>
+  <script>
+    function statusChangeCallback(response) {
+      if (response.status === 'connected') {
+        testAPI();
+      }
+      else if (response.status === 'not_authorized') {
+        document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+      }
+      else {
+        document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+      }
+    }
+    function checkLoginState() {
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    }
+    function fbLogoutUser() {
+      FB.getLoginStatus(function(response) {
+          if (response && response.status === 'connected') {
+              FB.logout(function(response) {
+                console.log("logged out from fb");
+                document.getElementById('main-app').userDetails =null;
+                checkLoginState();
+              });
+          }
+      });
+    }
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '1163182907039920',
+        cookie     : true,  // enable cookies to allow the server to access
+                            // the session
+        xfbml      : true,  // parse social plugins on this page
+        version    : 'v2.5' // use graph api version 2.5
+      });
+      FB.getLoginStatus(function(response) {
+        statusChangeCallback(response);
+      });
+    };
+    // Load the SDK asynchronously
+    (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    // Here we run a very simple test of the Graph API after login is
+    // successful.  See statusChangeCallback() for when this call is made.
+    function testAPI() {
+      console.log('Welcome!  Fetching your information.... ');
+      FB.api('/me', function(response) {
+        console.log('Successful login for: ' + response);
+        document.getElementById('status').innerHTML =
+          'Logged in via FB, Hello ' + response.name + '!';
+        document.querySelector('main-app').userDetails = response;
+      });
+     }
+  </script>
+<main-app></main-app>
+</body>

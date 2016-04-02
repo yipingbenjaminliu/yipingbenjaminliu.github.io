@@ -1,0 +1,94 @@
+<dom-module id="popular-page">
+  <style is="custom-style">
+    .meta {
+      color: gray;
+    }
+    .wrap {
+      width: 1250px;
+      margin-left: -22%;
+    }
+    @media (max-width: 1250px) {
+      .wrap {
+        margin-left: 0;
+        width: 100%;
+      }
+    }
+    .grid-item {
+      background-color: transparent;
+      border: thin solid black;
+      width: 350px;
+      float: left;
+      margin: 10px;
+      border-radius: 12px;
+      transition: all 0.25s;
+      background-color: white;
+    }
+    h3{
+      margin-left: 24px;
+      margin-bottom: 0px;
+    }
+    paper-card.black {
+      --paper-card-header-color: #000;
+      font-family: 'Bangers';
+      font-size: 16px;
+      border: thin solid black;
+      border-radius: 12px;
+      border-top-right-radius: 0px;
+      border-top-left-radius: 0px;
+      transition: 0.2s all;
+      top: 10px;
+      width: 350px;
+      margin-right: 4px;
+      margin-bottom: 5px;
+      color: black;
+    }
+    .grid-item:hover{
+      transform: scale(1.05,1.05);
+      z-index: 100;
+    }
+    paper-icon-button{
+      color: red;
+    }
+    a{
+      float: right;
+      margin: 4px;
+      padding: 8px;
+    }
+    paper-input {
+      display: inline-block;
+      float: right;
+    }
+  </style>
+  <template>
+    <lunr-js
+         data="[[searchable]]"
+         search="{{search}}"
+         fields='["title", "comictitle","desc"]'
+         output="{{filtered}}" >
+    </lunr-js>
+      <div class="wrap">
+        <div class="bubble">
+          <h1>Popular Comic Strips: <paper-input value="{{search}}" label="Search"></paper-input></h1>
+          <div class="grid" id="container">
+            <template is="dom-repeat" items="[[results(search, filtered, resp)]]">
+              <div class="grid-item">
+                <h3> [[item.comic.title]] / [[item.title]]</h3>
+                <paper-card heading="" image="[[item.img]]" class="black">
+                  <div class="card-actions horizontal justified">
+                    <paper-icon-button icon="favorite"></paper-icon-button>
+                    [[item.votes]] likes
+                    <a href="[[stripURL(item.comic, item)]]"> view </a>
+                  </div>
+                </paper-card>
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+      <iron-ajax auto
+                     url="/api/popular/"
+                     handle-as="json"
+                     last-response="{{resp}}"></iron-ajax>
+  </template>
+</dom-module>
+<script src="popular-page.js"></script>
