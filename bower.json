@@ -1,6 +1,0 @@
-{
-  "name": "personal resume",
-  "dependencies": {
-    "paper-elements": "PolymerElements/paper-elements#^1.0.7"
-  }
-}

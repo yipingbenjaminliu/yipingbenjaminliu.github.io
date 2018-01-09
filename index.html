@@ -1,32 +1,30 @@
+<!doctype html>
 <html>
   <head>
-  	<script src="bower_components/webcomponentsjs/webcomponents-lite.min.js">
-    </script>
-  	<link rel="import" href="bower_components/paper-button/paper-button.html">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- CSS import for bootstrap 4.0 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+    <!-- javascript for bootstrap 4.0 -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+
+    <title>Benjamin Liu</title>
+    <h1>Benjamin Liu's Personal Site</h1>
+
   </head>
   <body>
+    <div class="container-fluid">
+      
 
-    <h1>Sample "Hello, World" Application</h1>
 
-    <p>This is the home page for the HelloWorld Web application. </p>
-    <p>To prove that they work, you can execute either of the following links:</p>
-    <p>project1</p>
 
-    <paper-button>Polymer test</paper-button>    
+    </div>
+
 
   </body>
-
-
-   <script>
-      // To ensure that elements are ready on polyfilled browsers, 
-      // wait for WebComponentsReady. 
-      document.addEventListener('WebComponentsReady', function() {
-        var input = document.querySelector('paper-input');
-        var button = document.querySelector('paper-button');
-        var greeting = document.getElementById("greeting");
-        button.addEventListener('click', function() {
-          greeting.textContent = 'Hello, ' + input.value;
-        });
-      });
-    </script>
 </html>
